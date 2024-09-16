@@ -67,7 +67,7 @@ class LinkedList {
         const length = this.size();
         const prev = this.at(length-1);
         let tail = this.findTail();
-        tail.nextNode = prev.nextNode;
+        prev.nextNode = tail.nextNode;
     }
 
     contains(value) {
@@ -101,6 +101,35 @@ class LinkedList {
         string += 'null';
         return console.log(string);
     }
+
+    insertAt(value, index){
+        if(this.size()>=index) {
+            let nodeBefore = this.at(index-1);
+            let nodeAfter = this.at(index);
+            let tmp = this.head;
+            let i = 1;
+            while(tmp.nextNode != null && i<(index-1)) {
+                tmp = tmp.nextNode;
+                i++;
+            }
+
+            tmp = new Node(value, nodeAfter);
+            nodeBefore.nextNode = tmp;
+        }else{
+            console.log('List not long enough!');
+        }
+    }
+
+
+    removeAt(index){
+        if(this.size()>=index) {
+            let nodeBefore = this.at(index-1);
+            let nodeRemove = this.at(index);
+            nodeBefore.nextNode = nodeRemove.nextNode;
+        }else{
+            console.log('List index does not exist');
+        }
+    }
     
 };
 
@@ -113,12 +142,12 @@ list.append("cat");
 list.append("parrot");
 list.append("hamster");
 list.append("snake");
-list.append("turtle");
 list.prepend("mouse");
 
-console.log(list.contains("parrot"));
 list.toString();
 
-list.pop();
+list.insertAt("turtle", 3);
+list.toString();
 
+list.removeAt(5);
 list.toString();
