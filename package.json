@@ -1,0 +1,13 @@
+{
+  "name": "linkedlist",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Project to learn how to create a Linked List with methods to add and delete items",
+  "main": "linkedList.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

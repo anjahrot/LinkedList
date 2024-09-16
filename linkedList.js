@@ -1,23 +1,15 @@
-class Node {
-    constructor(value=null, nextNode=null) {
-        this.value = value;
-        this.nextNode = nextNode;
-    }
-
-}
-
+import Node from "./node.js";
 
 class LinkedList {
     constructor() {
-        this.head = null;
-        this.tail = null;
+        this.headNode = null;
+        this.tailNode = null;
     }
 
     append(value) {
-
-        if(this.head == null) this.prepend(value);
+        if(this.headNode == null) this.prepend(value);
         else {
-            let tmp = this.head;
+            let tmp = this.headNode;
             while(tmp.nextNode != null) tmp = tmp.nextNode;
 
             tmp.nextNode = new Node(value);
@@ -26,13 +18,13 @@ class LinkedList {
     }
 
     prepend(value) {
-        this.head = new Node(value, this.head)
+        this.headNode = new Node(value, this.headNode)
     }
 
     size() {
-        if(this.head == null) return 0;
+        if(this.headNode == null) return 0;
         else {
-            let tmp = this.head;
+            let tmp = this.headNode;
             let size = 1;
             while(tmp.nextNode != null) {
                 tmp = tmp.nextNode;
@@ -42,13 +34,13 @@ class LinkedList {
         }
     }
 
-    findHead() {
-        return this.head;
+    head() {
+        return this.headNode;
     }
 
-    findTail() {
+    tail() {
         const length = this.size();
-        let tmp = this.head;
+        let tmp = this.headNode;
         for(let i=0;i<(length-1);i++){
             tmp = tmp.nextNode;
         }
@@ -56,7 +48,7 @@ class LinkedList {
     }
 
     at(index) {
-        let tmp = this.head;
+        let tmp = this.headNode;
         for(let i=0;i<(index-1);i++) {
             tmp = tmp.nextNode;
         }
@@ -64,15 +56,21 @@ class LinkedList {
     }
 
     pop() {
-        const length = this.size();
-        const prev = this.at(length-1);
-        let tail = this.findTail();
-        prev.nextNode = tail.nextNode;
+        if(!this.headNode) return; //If list is empty
+        else if(!this.headNode.nextNode) {
+            this.headNode = null;
+            this.tailNode = null;
+        } else {
+            const length = this.size();
+            const prev = this.at(length-1);
+            let tail = this.tail();
+            prev.nextNode = tail.nextNode;
+        }
     }
 
     contains(value) {
         const length = this.size();
-        let tmp = this.head;
+        let tmp = this.headNode;
         for(let i=0;i<length;i++){
             if(tmp.value === value) return true;
             tmp = tmp.nextNode;
@@ -82,7 +80,7 @@ class LinkedList {
 
     find(value) {
         const length = this.size();
-        let tmp = this.head;
+        let tmp = this.headNode;
         for(let i=1;i<length;i++){
             if(tmp.value === value) return i;
             tmp = tmp.nextNode;
@@ -93,7 +91,7 @@ class LinkedList {
     toString() {
         const length = this.size();
         let string = '';
-        let tmp = this.head;
+        let tmp = this.headNode;
         for(let i=0;i<length;i++){
             string += '(' + tmp.value + ') -> ';
             tmp = tmp.nextNode;
@@ -103,10 +101,13 @@ class LinkedList {
     }
 
     insertAt(value, index){
-        if(this.size()>=index) {
+        if(index <= 0) return console.error("Error occured:", "Index must be positive integer");
+        else if(index === 1) this.prepend(value);
+        else if(index > this.size()) this.append(value);  //Adds to end of list if index does not exist
+        else{
             let nodeBefore = this.at(index-1);
             let nodeAfter = this.at(index);
-            let tmp = this.head;
+            let tmp = this.headNode;
             let i = 1;
             while(tmp.nextNode != null && i<(index-1)) {
                 tmp = tmp.nextNode;
@@ -115,19 +116,17 @@ class LinkedList {
 
             tmp = new Node(value, nodeAfter);
             nodeBefore.nextNode = tmp;
-        }else{
-            console.log('List not long enough!');
         }
     }
 
 
     removeAt(index){
-        if(this.size()>=index) {
+        if(index > 0 && this.size() >= index) {
             let nodeBefore = this.at(index-1);
             let nodeRemove = this.at(index);
             nodeBefore.nextNode = nodeRemove.nextNode;
         }else{
-            console.log('List index does not exist');
+            console.error("Error occured:", "List index does not exist");
         }
     }
     
@@ -146,7 +145,7 @@ list.prepend("mouse");
 
 list.toString();
 
-list.insertAt("turtle", 3);
+list.insertAt("turtle", 1);
 list.toString();
 
 list.removeAt(5);
