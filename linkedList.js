@@ -1,6 +1,6 @@
 import Node from "./node.js";
 
-class LinkedList {
+export default class LinkedList {
     constructor() {
         this.headNode = null;
         this.tailNode = null;
@@ -121,7 +121,11 @@ class LinkedList {
 
 
     removeAt(index){
-        if(index > 0 && this.size() >= index) {
+        if(index === 1) {
+            let nodeAfter = this.at(index+1);
+            this.headNode = nodeAfter;
+        }
+        else if(index > 1 && this.size() >= index) {
             let nodeBefore = this.at(index-1);
             let nodeRemove = this.at(index);
             nodeBefore.nextNode = nodeRemove.nextNode;
@@ -148,5 +152,5 @@ list.toString();
 list.insertAt("turtle", 1);
 list.toString();
 
-list.removeAt(5);
+list.removeAt(1);
 list.toString();
