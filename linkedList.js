@@ -81,7 +81,7 @@ export default class LinkedList {
     find(value) {
         const length = this.size();
         let tmp = this.headNode;
-        for(let i=1;i<length;i++){
+        for(let i=1;i<=length;i++){
             if(tmp.value === value) return i;
             tmp = tmp.nextNode;
         }
@@ -148,8 +148,7 @@ list.append("snake");
 list.prepend("mouse");
 
 list.toString();
-
-list.insertAt("turtle", 1);
+list.insertAt("turtle", 5);
 list.toString();
 
 list.removeAt(1);
